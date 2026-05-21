@@ -54,6 +54,17 @@ export default function Tasks() {
     load();
   };
 
+  const deleteTask = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this task?"
+    );
+
+    if (!confirmDelete) return;
+
+    await api.delete(`/tasks/${id}`);
+    load();
+  };
+
   return (
     <div className="page">
       <h1>Tasks</h1>
@@ -135,6 +146,12 @@ export default function Tasks() {
               <option value="In Progress">In Progress</option>
               <option value="Completed">Completed</option>
             </select>
+
+            {user?.role === "Admin" && (
+              <button onClick={() => deleteTask(task._id)}>
+                Delete Task
+              </button>
+            )}
           </div>
         ))}
       </div>
